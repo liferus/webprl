@@ -1,35 +1,42 @@
 <script>
 	export let name;
-	function changeNameHandler(){
-		name += "click ";
+
+	let counter = 0;
+	$: counterClass = counter % 2 === 0 ? 'red' : 'blue';
+
+	$: upperName = name.toUpperCase();
+	$: lowerName = name.toLowerCase();
+
+	$: {
+		console.log("Name", name);
+		console.log("Conunter", counter);
 	}
-	let pos = {
-		x: 0,
-		y: 0
+
+	$: if (counter === 10){
+		name = 'Counter is equal 10';
 	}
-	let inputValue = "";
-	function mouseMoveHandler(event){
-		pos.x=event.x;
-		pos.y=event.y;
-	}
-	function submitHandler(event){
-		console.log("inputValue: ", inputValue);
+	
+	function changeName(){
+		name = "New name";
 	}
 </script>
 
 <main>
 	<h1>Hello {name}!</h1>
-	<button on:click={changeNameHandler}>Change name</button>
-	<div class="playground" on:mousemove={mouseMoveHandler}>
-	<h2>X: {pos.x}, Y:{pos.y}</h2>
-	</div>
-	<form on:submit|preventDefault|once ={submitHandler}>
-		<input type="text" on:input={event => (inputValue = event.target.value)}/>
-		<button type="submit">Submit form</button>
-	</form>
+	<h2>{upperName}</h2>
+	<h2>{lowerName}</h2>
+	<button on:click={changeName}>Change name</button>
+	<h1 class={counterClass}>Counter {counter}</h1>
+	<button on:click={() => counter++}>Add 1 to counter</button>
 </main>
 
 <style> 
+	.blue {
+		color: blue;
+	}
+	.red {
+		color: red;
+	}
 	main {
 		text-align: center;
 		padding: 1em;
@@ -37,8 +44,7 @@
 		margin: 0 auto;
 	}
 
-	h1 {
-		color: #ff3e00;
+	h1 {		
 		text-transform: uppercase;
 		font-size: 4em;
 		font-weight: 100;
@@ -48,12 +54,5 @@
 		main {
 			max-width: none;
 		}
-	}
-	.playground {
-		width: 400px;
-		height: 200px;
-		padding: 1rem;
-		margin-bottom: 1rem;
-		border: 1px solid black;
 	}
 </style>
