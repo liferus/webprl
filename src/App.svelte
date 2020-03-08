@@ -1,54 +1,32 @@
 <script>
-	export let name;
-	let agree = true;
-	let text = "";
-	let select = '1';
-	let sex = 'male';
+	let value = 'hello';
+	$: error = !isValid(value);
+	function isValid(val){
+		return val.length > 5 && val.length < 10;
+	}
 </script>
 
 <main>
-	<h1>{name}</h1>
-	<input type="text" bind:value={name} />
-	<hr />
-	<input type="checkbox" bind:checked={agree} />
-	{agree}
-	<hr />
-	<textarea bind:value={text}></textarea>
-	<div style="white-space: pre-wrap">{text}</div>
-	<hr />
-	<select bind:value={select}> 
-		<option value="0">Option 0</option>
-		<option value="1">Option 1</option>
-		<option value="2">Option 2</option>
-	</select>
-	<hr />
-	<input type="radio" value="female" bind:group={sex}/>
-	Female
-	<input type="radio" value="male" bind:group={sex}/>
-	Male
-	<br />
-	Sex: {sex}
+	<h1>Application {value}</h1>
+	<input type="text" bind:value={value} class:red={error} class:green={!error}>
 
-
+	{#if value.length < 5 }
+	<p>Длинна меньше 5 смволов</p>
+	{:else if value.length > 10}
+	<p>Длинна больше 10 символов</p>
+	{:else}
+	<p>Длина между 5 и 10 символами</p>
+	{/if}
 </main>
 
 <style> 
-	main {
-		text-align: left;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+	input {
+		outline: none;
 	}
-
-	h1 {		
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
+	.red {
+		border-color: red;
 	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+	.green {
+		border-color: green;
 	}
 </style>
