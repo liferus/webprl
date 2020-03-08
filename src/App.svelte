@@ -1,32 +1,20 @@
 <script>
-	let value = 'hello';
-	$: error = !isValid(value);
-	function isValid(val){
-		return val.length > 5 && val.length < 10;
-	}
+	import Person from './Person.svelte'
+	const people = [
+		{id: 1,name: 'Максим', age: 24, job: 'Frontend'},
+		{id: 2,name: 'Елена', age: 17, job: 'Студент'}
+	]
+	let name = 'Igor'
+	let age = 20
+	let jobTitle = 'Backend'
 </script>
 
 <main>
-	<h1>Application {value}</h1>
-	<input type="text" bind:value={value} class:red={error} class:green={!error}>
-
-	{#if value.length < 5 }
-	<p>Длинна меньше 5 смволов</p>
-	{:else if value.length > 10}
-	<p>Длинна больше 10 символов</p>
-	{:else}
-	<p>Длина между 5 и 10 символами</p>
-	{/if}
+	<h1>Application</h1>
+	<Person name={people[0].name} age={people[0].age} job={people[0].job} />
+	<Person {...people[1]} />
+	<Person {name} {age} job={jobTitle} />
 </main>
 
 <style> 
-	input {
-		outline: none;
-	}
-	.red {
-		border-color: red;
-	}
-	.green {
-		border-color: green;
-	}
 </style>
