@@ -1,19 +1,40 @@
 <script>
 	import Person from './Person.svelte'
-	const people = [
-		{id: 1,name: 'Максим', age: 24, job: 'Frontend'},
-		{id: 2,name: 'Елена', age: 17, job: 'Студент'}
+	let value = "";
+	let people = [
+		{id: 1,name: 'Максим'},
+		{id: 2,name: 'Елена'},
+		{id: 3,name: 'Татьяна'}
 	]
-	let name = 'Igor'
-	let age = 20
-	let jobTitle = 'Backend'
+	function addPerson(){
+ 		// people = people.concat([{
+		// 	id: Date.now(),
+		// 	name: value
+		// }]);
+		people = [
+			...people,
+			{
+				id: Date.now(),
+				name: value
+			}
+		]
+		value = ""; 
+	}
+	function removeFirst(){
+		people = people.slice(1);
+	}
 </script>
 
 <main>
-	<h1>Application</h1>
-	<Person name={people[0].name} age={people[0].age} job={people[0].job} />
-	<Person {...people[1]} />
-	<Person {name} {age} job={jobTitle} />
+<input type="text" bind:value />
+<button on:click={addPerson}>Add person</button>
+<button on:click={removeFirst}>Remove first</button>
+<hr />
+{#each people as { name, id }, i (id)}
+	<Person {name} index={i}/>
+{:else}
+	<p>No people!</p>
+{/each}
 </main>
 
 <style> 
